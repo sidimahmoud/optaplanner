@@ -1,0 +1,24 @@
+{
+    "name": "optaplanner/adapter",
+    "description": "Adapter for DigitalTolk's optaplanner",
+    "authors": [
+        {
+            "name": "Mokhtar Sidi Mahmoud",
+            "email": "sidmah10@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+      "psr-4": {
+        "DigitalTolk\\OptaplannerAdapter\\": "src/"
+      }
+    },
+    "extra": {
+      "laravel": {
+        "providers": [
+          "DigitalTolk\\OptaplannerAdapter\\DigitalTolkOptaplannerAdapterServiceProvider"
+        ]
+      }
+    }
+  
+}
