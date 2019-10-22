@@ -22,7 +22,6 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
      */
     public function getBookings(){
         $client = new Google_Client();
-        putenv('GOOGLE_APPLICATION_CREDENTIALS=C:\Users\deploy\Documents\test1\credentials.json');
         $client->useApplicationDefaultCredentials();
         $client->addScope(Google_Service_Drive::DRIVE);
 
@@ -51,7 +50,6 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
      */
     public function getTranslators(){
         $client = new Google_Client();
-        putenv('GOOGLE_APPLICATION_CREDENTIALS=C:\Users\deploy\Documents\test1\credentials.json');
         $client->useApplicationDefaultCredentials();
         $client->addScope(Google_Service_Drive::DRIVE);
 
