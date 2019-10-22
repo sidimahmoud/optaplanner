@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helpers;
+namespace DigitalTolk\OptaplannerAdapter\Helpers;
 
 class Translator {
     public $id, $ADRESS ,$PADR,$feedBack,$language,$level,$languages,$workStart,$workEnd,$wante_lunch,$lunch_time,$lunch_duree,$working_hours,$lunch_time_fixed_switch,

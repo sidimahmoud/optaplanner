@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helpers;
+namespace DigitalTolk\OptaplannerAdapter\Helpers;
 
 class customTranslators {
     public $booking_id, $translator_id ,$temp_travel_time_public,$temp_travel_time_car,$temp_travel_distance_public,$temp_travel_distance_car;

@@ -1,11 +1,11 @@
 <?php
 
-namespace src\Helpers;
+namespace DigitalTolk\OptaplannerAdapter\Helpers;
 
 class unvailable {
     public $id, $translator_id ,$description,$UnvailableTo,$Address,$unavailable_from,
     $unavailable_until,$created_at,$updated_at;
-    
+
     public function __construct($id, $translator_id ,$description,$UnvailableTo,$Address,$unavailable_from,
     $unavailable_until,$created_at,$updated_at){
         $this->id = $id;

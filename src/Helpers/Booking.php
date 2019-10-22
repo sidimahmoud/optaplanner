@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helpers;
+namespace DigitalTolk\OptaplannerAdapter\Helpers;
 
 class Booking {
     public $id, $customerId ,$endTime,$language,$startTime,$type,$date,$start,$endT;

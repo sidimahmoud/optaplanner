@@ -1,10 +1,10 @@
 <?php
 
-namespace src\Helpers;
+namespace DigitalTolk\OptaplannerAdapter\Helpers;
 
 class DtBooking {
     public $id, $customerId ,$endTime,$language,$startTime,$type;
-   
+
 
     public function __construct($id, $customerId ,$endTime,$language,$startTime,$type){
         $this->id = $id;

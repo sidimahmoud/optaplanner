@@ -1,5 +1,5 @@
 {
-    "name": "optaplanner/adapter",
+    "name": "digitaltolk/optaplanner-adapter",
     "description": "Adapter for DigitalTolk's optaplanner",
     "authors": [
         {
@@ -20,5 +20,5 @@
         ]
       }
     }
-  
+
 }

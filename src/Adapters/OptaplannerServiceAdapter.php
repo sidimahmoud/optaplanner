@@ -1,21 +1,21 @@
 <?php
 
-namespace src\Adapters;
+namespace DigitalTolk\OptaplannerAdapter\Adapters;
 
-use src\Contracts\Adapters\OptaplannerServiceAdapter as OptaplannerServiceAdapterContract;
+use DigitalTolk\OptaplannerAdapter\Contracts\Adapters\OptaplannerServiceAdapter as OptaplannerServiceAdapterContract;
 use GuzzleHttp\Client;
 Use DateTime;
-use src\Helpers\excelArray;
+use DigitalTolk\OptaplannerAdapter\Helpers\excelArray;
 use Sheets;
 Use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
-use src\Helpers\Booking;
-use src\Helpers\DtBooking;
-use src\Helpers\Translator;
-use src\Helpers\customTranslators;
-use src\Helpers\unvailable;
+use DigitalTolk\OptaplannerAdapter\Helpers\Booking;
+use DigitalTolk\OptaplannerAdapter\Helpers\DtBooking;
+use DigitalTolk\OptaplannerAdapter\Helpers\Translator;
+use DigitalTolk\OptaplannerAdapter\Helpers\customTranslators;
+use DigitalTolk\OptaplannerAdapter\Helpers\unvailable;
 
 class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
 {
@@ -64,13 +64,12 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
             if ($response->hasHeader('Content-Length')) {
                 //get number of bytes received
                 $content_length = $response->getHeader('Content-Length')[0];
-                
             }
             //get body content
             $body = $response->getBody();
             $arr = json_decode($body,TRUE);
             return $arr;
-           
+
         }
     }
 
@@ -94,7 +93,7 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
             //get body content
             $body = $response->getBody();
             $arr = json_decode($body,TRUE);
-            return $arr; 
+            return $arr;
         }
     }
     /**
@@ -123,8 +122,8 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
                 $body3 = $response3->getBody();
                 $content3 =$body3->getContents();
                 $arr3 = json_decode($content3,TRUE);
-                $distance[]=$arr3["data"]["batches"];    
-            } 
+                $distance[]=$arr3["data"]["batches"];
+            }
       }
         foreach($distance as $dis){
             foreach($dis as $dis1){
@@ -172,7 +171,7 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
         foreach ($Translators["data"]["translators"] as $trans) {
 
            if(!empty($trans["translator_data"]["employee_working_hours"]) ){
-           $translator=new Translator($trans["id"],'ADRESS','fdsfds',$trans["type"],"Ludhianiska",$trans["type"]/*,"lan"*/,$trans["languages"],"14:00:00","16:00:00","1","13:00:00","60",$trans["translator_data"]["employee_working_hours"],$trans["translator_data"]["lunch_time_fixed_switch"],$trans["translator_data"]["lunch_time_range_switch"],"12:30:00","14:00:00"/*$trans["translator_data"]["lunch_time_from"],$trans["translator_data"]["lunch_time_to"]*/);            
+           $translator=new Translator($trans["id"],'ADRESS','fdsfds',$trans["type"],"Ludhianiska",$trans["type"]/*,"lan"*/,$trans["languages"],"14:00:00","16:00:00","1","13:00:00","60",$trans["translator_data"]["employee_working_hours"],$trans["translator_data"]["lunch_time_fixed_switch"],$trans["translator_data"]["lunch_time_range_switch"],"12:30:00","14:00:00"/*$trans["translator_data"]["lunch_time_from"],$trans["translator_data"]["lunch_time_to"]*/);
            }else{
            $translator=new Translator($trans["id"],'ADRESS','fdsfds',$trans["type"],"Ludhianiska",$trans["type"]/*,"lan"*/,$trans["languages"],"14:00:00","16:00:00","1","13:00:00","60",$workHours,$trans["translator_data"]["lunch_time_fixed_switch"],$trans["translator_data"]["lunch_time_range_switch"],"12:30:00","14:00:00"/*$trans["translator_data"]["lunch_time_from"],$trans["translator_data"]["lunch_time_to"]*/);
            }
@@ -188,12 +187,12 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
             $translator=new unvailable($trans["id"],$trans["translator_id"],$trans["description"],$trans["unavailable_to"],$trans["address"],str_replace(" ","T",$trans["unavailable_from"]),str_replace(" ","T",$trans["unavailable_until"]),$trans["created_at"],$trans["updated_at"]);
             $unvailableTime[]=$translator;
         }
-        
+
         $Opta["com.bookingRoster"]["id"]="1";
         $Opta["com.bookingRoster"]["translators"]=$translatorsOpta;
         $Opta["com.bookingRoster"]["bookings"]=$BookingsOpta;
         $Opta["com.bookingRoster"]["translatorUnvailableTimes"]=$unvailableTime;
-        
+
          //return $Opta;
         $client = new Client(['base_uri' => 'http://localhost:8080']);
         $headers =  [
@@ -206,8 +205,8 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
             'json' => $Opta
         ];
         $response1 = $client->request('POST', '/kie-server/services/rest/server/containers/Tfv_project_V1_1.0.0-SNAPSHOT/solvers/TranslatorSolver03/state/solving', $data);
-        
-        
+
+
         $url = 'http://localhost:8080/kie-server/services/rest/server/containers/Tfv_project_V1_1.0.0-SNAPSHOT/solvers/TranslatorSolver03/bestsolution';
         $client = new Client(['headers' => ['application/json',
         'authorization' => 'Basic cGxhbm5lcjpQbGFubmVyMTIzXw==',
@@ -216,7 +215,7 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
         //send get request to fetch data
         sleep(200);
         $response = $client->request('GET', $url);
-        
+
         $body = $response->getBody();
         $arr = json_decode($body,TRUE);
         //return $arr;
@@ -235,7 +234,7 @@ class OptaplannerServiceAdapter implements OptaplannerServiceAdapterContract
                 NULL,        // Array values with this value will not be set
                 'A1'         // Top left coordinate of the worksheet range where
             );
-        
+
         // Create Excel file and sve in your directory
         $writer = new Xlsx($spreadsheet);
         $writer->save(__DIR__ . '/mysheet.xlsx');

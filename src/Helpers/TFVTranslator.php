@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helpers;
+namespace DigitalTolk\OptaplannerAdapter\Helpers;
 
 class TFVTranslator {
     public $id, $ADRESS ,$PADR,$feedBack,$language,$level ;

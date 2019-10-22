@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Contracts\Adapters;
+namespace DigitalTolk\OptaplannerAdapter\Contracts\Adapters;
 
 
 interface TFVServiceAdapter
@@ -26,5 +26,5 @@ interface TFVServiceAdapter
      */
     public function getData();
 
-    
+
 }

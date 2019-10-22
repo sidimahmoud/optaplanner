@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Helpers;
+namespace DigitalTolk\OptaplannerAdapter\Helpers;
 
 class excelArray {
     public $id, $customerId ,$endTime,$language,$startTime,$type,$idTranslator,$level,$translatorlanguage ;

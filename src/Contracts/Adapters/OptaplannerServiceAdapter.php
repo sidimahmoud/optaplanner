@@ -1,6 +1,6 @@
 <?php
 
-namespace src\Contracts\Adapters;
+namespace DigitalTolk\OptaplannerAdapter\Contracts\Adapters;
 
 
 interface OptaplannerServiceAdapter
@@ -38,5 +38,5 @@ interface OptaplannerServiceAdapter
      */
     public function getData();
 
-    
+
 }

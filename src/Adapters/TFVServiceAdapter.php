@@ -1,11 +1,11 @@
 <?php
 
-namespace src\Adapters;
+namespace DigitalTolk\OptaplannerAdapter\Adapters;
 
-use src\Contracts\Adapters\TFVServiceAdapter as TFVServiceAdapterContract;
+use DigitalTolk\OptaplannerAdapter\Contracts\Adapters\TFVServiceAdapter as TFVServiceAdapterContract;
 use GuzzleHttp\Client;
 Use DateTime;
-use src\Helpers\excelArray;
+use DigitalTolk\OptaplannerAdapter\Helpers\excelArray;
 use Sheets;
 Use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -25,31 +25,22 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
         putenv('GOOGLE_APPLICATION_CREDENTIALS=C:\Users\deploy\Documents\test1\credentials.json');
         $client->useApplicationDefaultCredentials();
         $client->addScope(Google_Service_Drive::DRIVE);
-        
+
         $driveService = new Google_Service_Drive($client);
-        
-        // List Files
-        // $response = $driveService->files->listFiles();
-        
-        // Set File ID and get the contents of your Google Sheet
-        $fileID = '1Mwv24ov1QT9H6i4Ba0hQ2TWqkazSYVClqNUeyC7LBXc';
+        $fileID = env('TFV_BOOKING_SHEET_ID');
         $response = $driveService->files->export($fileID, 'text/csv', array(
             'alt' => 'media'));
-        
         $content = $response->getBody()->getContents();
         //dd($content);
         // Create CSV from String
         $csv = Reader::createFromString($content, 'r');
         $csv->setHeaderOffset(0);
         $records = $csv->getRecords();
-        
         // Create an Empty Array and Loop through the Records
         $newarray = array();
         foreach ($records as $value) {
         $newarray[] = $value;
         }
-        
-        // Dump and Die
         return $newarray;
     }
 
@@ -63,23 +54,23 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
         putenv('GOOGLE_APPLICATION_CREDENTIALS=C:\Users\deploy\Documents\test1\credentials.json');
         $client->useApplicationDefaultCredentials();
         $client->addScope(Google_Service_Drive::DRIVE);
-        
+
         $driveService = new Google_Service_Drive($client);
-        $fileID = '1Ay7vowAH9JwpWlyj-BAGa1nfBfCj1BA77dCEEeX-tSs';
+        $fileID = env('TFV_TRANSLATORS_SHEET_ID');
         $response = $driveService->files->export($fileID, 'text/csv', array(
             'alt' => 'media'));
-        
+
         $content = $response->getBody()->getContents();
         $csv = Reader::createFromString($content, 'r');
         $csv->setHeaderOffset(0);
         $records = $csv->getRecords();
-        
+
         // Create an Empty Array and Loop through the Records
         $newarray = array();
         foreach ($records as $value) {
         $newarray[] = $value;
         }
-        
+
         // Dump and Die
         return $newarray;
     }
@@ -104,14 +95,14 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
                 $i++;
                 if($i==10000) break;
             }
-            
+
         }
         $Translators=$this->getTranslators();
         foreach ($Translators as $trans) {
             $translator=new TfTranslator($trans["id"],$trans["ADRESS"],$trans["PADR"],5,$trans["Language"],$trans["Level"]);
             $translatorsOpta[]=$translator;
         }
-    
+
         $Opta["com.bookingRoster"]["id"]="1";
         $Opta["com.bookingRoster"]["translators"]=$translatorsOpta;
        //$Opta["com.bookingRoster"]["translators"]=$translators;
@@ -119,7 +110,7 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
        //$Opta["com.bookingRoster"]["bookings"]=$Bookings;
         $Opta["com.bookingRoster"]["customTranslators"]=$Tran;
         // $Opta;
-          
+
 
         $client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080']);
         $headers =  [
@@ -143,7 +134,7 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
         //send get request to fetch data
         sleep(900);
         $response = $client->request('GET', $url);
-        
+
         $body = $response->getBody();
         $arr = json_decode($body,TRUE);
         $spreadsheet = new Spreadsheet();
@@ -159,12 +150,12 @@ class TFVServiceAdapter implements TFVServiceAdapterContract
                 NULL,        // Array values with this value will not be set
                 'A1'         // Top left coordinate of the worksheet range where
             );
-        
+
         // Create Excel file and sve in your directory
         $writer = new Xlsx($spreadsheet);
-        $writer->save(__DIR__ . '/mysheet.xlsx');
+        $writer->save(__DIR__ . '/Tfv.xlsx');
         $solved=$arr["best-solution"]["com.bookingRoster"]["bookings"];
         return $solved;
-        
+
     }
 }

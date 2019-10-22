@@ -1,10 +1,10 @@
 <?php
 
-namespace src;
+namespace DigitalTolk\OptaplannerAdapter;
 
 use Illuminate\Support\ServiceProvider;
-use src\Contracts\Adapters\OptaplannerServiceAdapter as OptaplannerServiceAdapterContract;
-use src\Adapters\OptaplannerServiceAdapter;
+use DigitalTolk\OptaplannerAdapter\Contracts\Adapters\OptaplannerServiceAdapter as OptaplannerServiceAdapterContract;
+use DigitalTolk\OptaplannerAdapter\Adapters\OptaplannerServiceAdapter;
 use Laravel\Passport\ClientRepository;
 
 class OptaplannerAdapterServiceProvider extends ServiceProvider
@@ -14,7 +14,7 @@ class OptaplannerAdapterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
+
     }
 
     /**
